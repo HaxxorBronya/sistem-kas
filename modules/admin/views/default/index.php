@@ -1,6 +1,7 @@
 <?php
 
 use dosamigos\chartjs\ChartJs;
+use yii\helpers\Html;
 ?>
 
 <h1>Dashboard</h1>
@@ -103,22 +104,14 @@ use dosamigos\chartjs\ChartJs;
             [
                 'label' => "Pemasukan",
                 'backgroundColor' => "rgba(179,181,198,0.2)",
-                'borderColor' => "rgba(179,181,198,1)",
-                'pointBackgroundColor' => "rgba(179,181,198,1)",
-                'pointBorderColor' => "#fff",
-                'pointHoverBackgroundColor' => "#fff",
-                'pointHoverBorderColor' => "rgba(179,181,198,1)",
-                'data' => $data1
+                'borderColor' => "rgba(179,181,198,0.2)",
+                'data' => $income
             ],
             [
                 'label' => "Pengeluaran",
                 'backgroundColor' => "rgba(255,99,132,0.2)",
-                'borderColor' => "rgba(255,99,132,1)",
-                'pointBackgroundColor' => "rgba(255,99,132,1)",
-                'pointBorderColor' => "#fff",
-                'pointHoverBackgroundColor' => "#fff",
-                'pointHoverBorderColor' => "rgba(255,99,132,1)",
-                'data' => $data2
+                'borderColor' => "rgba(255,99,132,0.2)",
+                'data' => $outcome
             ]
         ]
     ]

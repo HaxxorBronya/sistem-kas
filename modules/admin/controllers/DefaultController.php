@@ -5,7 +5,8 @@ use app\modules\admin\models\pemasukan\Pemasukan;
 use app\modules\admin\models\pemasukan\PemasukanSearch;
 use app\modules\admin\models\pengeluaran\Pengeluaran;
 use app\modules\admin\models\pengeluaran\PengeluaranSearch;
-
+use Codeception\Coverage\Filter;
+use Yii;
 use yii\web\Controller;
 
 /**
@@ -19,21 +20,47 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new PengeluaranSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
-        $searchModel2 = new PemasukanSearch();
-        $dataProvider2 = $searchModel2->search($this->request->queryParams);
-        $hari = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-        $data1 = [1000, 2000, 3000, 4000, 5000, 6000, 7000];
-        $data2 = [10000, 9000, 8000, 7000, 6000, 5000, 4000];
+        $hari = [];
+
+        $jumlah_hari = cal_days_in_month(CAL_GREGORIAN, 9, 2024);
+
+        $income = [];
+        $outcome = [];
+
+        for ($i=1; $i <= $jumlah_hari; $i++) { 
+            if(strlen($i) < 2){
+                $i = '0'.$i;
+            }
+            $tanggal = date('2024-09-'.$i.'', strtotime($i));
+
+            $pemasukan = Yii::$app->db->createCommand('SELECT SUM(nominal) as nominal, tanggal FROM `transaksi` WHERE DATE_FORMAT(tanggal, "%Y-%m-%d") = "'.$tanggal.'" AND status = 1 GROUP BY tanggal')->queryOne();
+            $pengeluaran = Yii::$app->db->createCommand('SELECT SUM(nominal) as nominal, tanggal FROM `transaksi` WHERE DATE_FORMAT(tanggal, "%Y-%m-%d") = "'.$tanggal.'" AND status = 0 GROUP BY tanggal')->queryOne();
+            
+            if(!empty($pemasukan['tanggal']) && $tanggal == $pemasukan['tanggal']){
+                $income[] = $pemasukan['nominal'];
+            }else{
+                $income[] = 0;
+            }
+            
+            if(!empty($pengeluaran['tanggal']) && $tanggal == $pengeluaran['tanggal']){
+                $outcome[] = $pengeluaran['nominal'];
+            }else{
+                $outcome[] = 0;
+            }
+
+            $hari[] = $tanggal;
+        }
+
+        // $pengeluaran = Yii::$app->db->createCommand('SELECT SUM(nominal) as nominal, tanggal FROM `transaksi` WHERE MONTH(tanggal) = 8 AND status = 0 GROUP BY tanggal')->queryAll();
+        // foreach ($pengeluaran as $data) {
+        //     $outcome[] = $data['nominal'];
+        // }
+
+
         return $this->render('index', [
             'hari' => $hari,
-            'data1' => $data1,
-            'data2' => $data2,
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'searchModel2' => $searchModel2,
-            'dataProvider2' => $dataProvider2,
+            'income' => $income,
+            'outcome' => $outcome,
         ]);
     }
 }
