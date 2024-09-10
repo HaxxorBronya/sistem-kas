@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\modules\admin\models\pemasukan\Pemasukan $model */
 
-$this->title = 'Update Pemasukan: ' . $model->id;
+$this->title = 'Update Pemasukan: ' . $model->keterangan;
 $this->params['breadcrumbs'][] = ['label' => 'Pemasukans', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = 'Update';
                     'model' => $model,
                 ]) ?>
                 
-
+                    
             </div>    
         </div>    
     </div>    
