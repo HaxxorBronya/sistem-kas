@@ -40,6 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         
                     ],
                 ]) ?>
+                <?= \yii\helpers\Html::a( 'Kembali',  Yii::$app->request->referrer, ['class' => 'btn btn-outline-success']);?>
             </div>
         </div>
     </div>

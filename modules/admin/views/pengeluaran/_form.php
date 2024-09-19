@@ -33,6 +33,7 @@ use yii\widgets\ActiveForm;
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= \yii\helpers\Html::a( 'Cancel',  Yii::$app->request->referrer, ['class' => 'btn btn-outline-primary']);?>
     </div>
 
     <?php ActiveForm::end(); ?>
